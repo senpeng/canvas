@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Canvas绘制线段</title>
+    </head>
+    <style>
+        canvas {
+            border: 1px solid #ccc;
+        }
+    </style>
+
+    <body>
+
+    <canvas id="myCanvas" width="400" height="400">
+        你的浏览器不支持canvas!!!
+    </canvas>
+
+    <script type="text/javascript">
+
+        window.addEventListener('load', eventWindowLoaded, false);
+
+        function eventWindowLoaded() {
+            canvasApp();    //包含整个Canvas应用程序
+        }
+        //封装检测方法
+        function canvasSupport(e) {
+            return !!e.getContext;
+        }
+
+        function canvasApp() {
+            var myCanvas = document.getElementById('myCanvas');
+            //检测myCanvas是否包含false（如果命名的id不存在，document.getElementById()将会返回此值）
+            //检测Canvas的getContext方法是否存在
+            /*if(!myCanvas || !myCanvas.getContext) {
+             return;
+             }*/
+
+            if(!canvasSupport(myCanvas)) {
+                return;
+            }
+
+            var ctx = myCanvas.getContext('2d');
+            //封装对Canvas进行的操作
+            function drawScreen() {
+               /* ctx.lineWidth = 10;         // 设置线的粗细
+                ctx.strokeStyle = "#0ff"    // 设置线的颜色、渐变、和模式
+                ctx.moveTo(50, 50);         //起始点
+                ctx.lineTo(350, 200);       //第二点（如果是一条直线的话，就是终点）
+                ctx.stroke();*/
+
+
+                //创建一个表示线性渐变的CanvasGradient对象
+                //并设置该对象的作用区域就用线段所在的区域
+                var canvasGradient = ctx.createLinearGradient(50, 50 ,250, 50);
+                //在offset为0的位置（即起点位置）添加一个蓝色的渐变
+                canvasGradient.addColorStop(0, 'blue');
+                //在offset为0.2的位置（线段左起20%的位置）添加一个绿色的渐变
+                canvasGradient.addColorStop(0.2, 'green');
+                //在offset为1的位置（即终点位置）添加一个蓝色的渐变
+                canvasGradient.addColorStop(1, 'red');
+                //将strokeStyle的属性值设为该CanvasGradient对象
+                ctx.strokeStyle = canvasGradient;
+                ctx.lineWidth = 10;
+                ctx.moveTo(50, 10);
+                ctx.lineTo(350, 100);
+                ctx.stroke();
+
+
+                ctx.lineWidth = 5;
+                // 先调用stroke()，再调用closePath()。其实在调用stroke()方法时，折线就已经绘制好了，当前的绘制路径也就被关闭掉了
+                // 所以再调用closePath()方法时，它就不会使用直线连接当前端点和起始端点(也就是说，这里的closePath()是可有可无的)
+                ctx.strokeStyle = "#0ff";
+                ctx.beginPath();
+                ctx.moveTo(50, 100);
+                ctx.lineTo(100, 100);
+                ctx.lineTo(100, 150);
+                ctx.lineTo(150, 150);
+                ctx.stroke();
+                //ctx.fill();       //填充
+                ctx.closePath();
+                //由于closePath()先调用，再调用stroke()，此时绘制路径并没有关闭，那么closePath()将会用直线连接当前端点和起始端点。
+                ctx.strokeStyle = "#f0f";
+                ctx.beginPath();
+                ctx.moveTo(50, 200);
+                ctx.lineTo(100, 200);
+                ctx.lineTo(100, 250);
+                ctx.lineTo(150, 250);
+                ctx.closePath();
+                ctx.stroke();
+
+
+                ctx.strokeStyle = "#f00";
+                ctx.lineWidth = 1;
+
+                ctx.beginPath();
+                ctx.moveTo(50, 300);
+                ctx.lineTo(250, 300);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(50.5, 350.5);
+                ctx.lineTo(250.5, 350.5);
+                ctx.closePath();
+                ctx.stroke();
+
+            }
+            drawScreen();
+
+        }
+
+
+    </script>
+    </body>
+</html>
