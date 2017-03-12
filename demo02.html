@@ -92,12 +92,12 @@
 
                 ctx.strokeStyle = "#f00";
                 ctx.lineWidth = 1;
-
+                // 在某2个像素的边界处绘制一条1像素宽的线段,该线段实际上会占据2个像素的宽度
                 ctx.beginPath();
                 ctx.moveTo(50, 300);
                 ctx.lineTo(250, 300);
                 ctx.stroke();
-
+                // 在某2个像素中的一个像素中绘制一条1像素宽的线段，该像素刚好占据1个像素的宽度
                 ctx.beginPath();
                 ctx.moveTo(50.5, 350.5);
                 ctx.lineTo(250.5, 350.5);
